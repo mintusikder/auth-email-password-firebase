@@ -3,22 +3,21 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 
 const Login = () => {
-    const {signInUser} = useContext(AuthContext)
-
+  const { signInUser } = useContext(AuthContext);
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
-    signInUser(email,password)
-    .then(result =>{
-        const user = result.user 
-        console.log(user)
-    })
-    .catch(error =>{
-        console.error(error)
-    })
+    signInUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -66,7 +65,12 @@ const Login = () => {
               <button className="btn btn-primary">Login</button>
             </div>
           </form>
-          <p className="ml-8 mb-4">New Account <Link className="underline" to="/registration">Registration</Link> </p>
+          <p className="ml-8 mb-4">
+            New Account{" "}
+            <Link className="underline" to="/registration">
+              Registration
+            </Link>{" "}
+          </p>
         </div>
       </div>
     </div>
