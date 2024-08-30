@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser,resetEmail } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState("");
   const [loginError, setLoginError] = useState("");
+  const emailRef = useRef(null)
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -27,7 +28,26 @@ const Login = () => {
         console.error(error);
         setLoginError(error.message);
       });
+
+      
   };
+  //forget pass
+  const handelForgetPass = () =>{
+    const email = emailRef.current.value
+    console.log(email)
+    if(!email){
+        console.log("Please enter your email address.",emailRef.current.value )
+    }else if(! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        alert("Enter A valid email")
+    }
+    resetEmail(email)
+    .then(()=>{
+      alert("Please Check your email")
+    })
+    .catch(error=>{
+      console.error(error)
+    })
+  }
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -48,6 +68,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
+                ref={emailRef}
                 placeholder="email"
                 className="input input-bordered"
                 required
@@ -73,7 +94,7 @@ const Login = () => {
                 </span>
               </div>
               <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
+                <a onClick={handelForgetPass} href="#" className="label-text-alt link link-hover">
                   Forgot password?
                 </a>
               </label>

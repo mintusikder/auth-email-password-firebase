@@ -13,18 +13,25 @@ const Registration = () => {
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
+    // const accepted = form.terms.checked;
     console.log(name, email, password);
     //success and error clean
     setSuccess("");
     setRegistrationError("");
     //password validation
-    if(password.length < 6){
-        setRegistrationError("Password should be at least 6 characters")
-        return
-    }else if(!/[A-Z]/.test(password)){
-        setRegistrationError("Password must contain at least one uppercase letter.")
-        return
+    if (password.length < 6) {
+      setRegistrationError("Password should be at least 6 characters");
+      return;
+    } else if (!/[A-Z]/.test(password)) {
+      setRegistrationError(
+        "Password must contain at least one uppercase letter."
+      );
+      return;
     }
+    //  else if (!accepted) {
+    //   setRegistrationError("Please accept our condition");
+    //   return;
+    // }
     createUser(email, password)
       .then((result) => {
         const user = result.user;
@@ -98,10 +105,17 @@ const Registration = () => {
               <button className="btn btn-primary">Registration</button>
             </div>
           </form>
+          {/* Accept condition */}
+          {/* <div className="flex ml-8">
+            <input className="mr-2" type="checkbox" name="terms" id="terms" />
+            <label htmlFor="terms">Accept Our Condition</label>
+          </div> */}
+          {/* success text */}
           {success && <p className="text-green-600 ml-8">{success}</p>}
           {registrationError && (
             <p className="text-red-600 ml-8">{registrationError}</p>
           )}
+          {/* link */}
           <p className="ml-8 mb-4">
             Already have an account{" "}
             <Link className="underline" to="/login">
