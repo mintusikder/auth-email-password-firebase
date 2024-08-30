@@ -17,6 +17,14 @@ const Registration = () => {
     //success and error clean
     setSuccess("");
     setRegistrationError("");
+    //password validation
+    if(password.length < 6){
+        setRegistrationError("Password should be at least 6 characters")
+        return
+    }else if(!/[A-Z]/.test(password)){
+        setRegistrationError("Password must contain at least one uppercase letter.")
+        return
+    }
     createUser(email, password)
       .then((result) => {
         const user = result.user;
@@ -92,7 +100,7 @@ const Registration = () => {
           </form>
           {success && <p className="text-green-600 ml-8">{success}</p>}
           {registrationError && (
-            <p className="text-green-600 ml-8">{registrationError}</p>
+            <p className="text-red-600 ml-8">{registrationError}</p>
           )}
           <p className="ml-8 mb-4">
             Already have an account{" "}

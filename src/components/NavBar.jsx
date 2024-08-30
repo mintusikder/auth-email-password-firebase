@@ -15,6 +15,15 @@ const NavBar = () => {
       <li>
         <NavLink to="/registration">Registration</NavLink>
       </li>
+      <li>
+        <NavLink to="/order">Order</NavLink>
+      </li>
+      {user && <>
+        <li>
+        <NavLink to="/history">History</NavLink>
+      </li>
+      
+      </>}
     </>
   );
   const handelLogOut = () => {

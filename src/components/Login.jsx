@@ -83,7 +83,7 @@ const Login = () => {
             </div>
           </form>
           {success && <p className="text-green-600 ml-8">{success}</p>}
-          {loginError && <p className="text-green-600 ml-8">{loginError}</p>}
+          {loginError && <p className="text-red-600 ml-8">{loginError}</p>}
           <p className="ml-8 mb-4">
             New Account{" "}
             <Link className="underline" to="/registration">
