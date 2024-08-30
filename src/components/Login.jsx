@@ -1,14 +1,14 @@
 import { useContext, useRef, useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
-  const { signInUser,resetEmail } = useContext(AuthContext);
+  const { signInUser, resetEmail, googleSignIn } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState("");
   const [loginError, setLoginError] = useState("");
-  const emailRef = useRef(null)
-  const navigate =useNavigate()
+  const emailRef = useRef(null);
+  const navigate = useNavigate();
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -16,45 +16,54 @@ const Login = () => {
     const password = form.password.value;
     console.log(email, password);
     //success and error clean
-    setSuccess("")
-    setLoginError("")
+    setSuccess("");
+    setLoginError("");
     signInUser(email, password)
       .then((result) => {
         const user = result.user;
         e.target.reset();
-        navigate("/");("/");
+        navigate("/");
+        ("/");
         console.log(user);
-        if(result.user.emailVerified){
-            setSuccess("Login SuccessFull");
-        }else{
-            alert("Please Verified email")
+        if (result.user.emailVerified) {
+          setSuccess("Login SuccessFull");
+        } else {
+          alert("Please Verified email");
         }
-        
       })
       .catch((error) => {
         console.error(error);
         setLoginError(error.message);
       });
-
-      
   };
   //forget pass
-  const handelForgetPass = () =>{
-    const email = emailRef.current.value
-    console.log(email)
-    if(!email){
-        console.log("Please enter your email address.",emailRef.current.value )
-    }else if(! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-        alert("Enter A valid email")
+  const handelForgetPass = () => {
+    const email = emailRef.current.value;
+    console.log(email);
+    if (!email) {
+      console.log("Please enter your email address.", emailRef.current.value);
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert("Enter A valid email");
     }
     resetEmail(email)
-    .then(()=>{
-      alert("Please Check your email")
-    })
-    .catch(error=>{
-      console.error(error)
-    })
-  }
+      .then(() => {
+        alert("Please Check your email");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  //google login
+  const handelGoogle = () => {
+    googleSignIn()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -101,7 +110,11 @@ const Login = () => {
                 </span>
               </div>
               <label className="label">
-                <a onClick={handelForgetPass} href="#" className="label-text-alt link link-hover">
+                <a
+                  onClick={handelForgetPass}
+                  href="#"
+                  className="label-text-alt link link-hover"
+                >
                   Forgot password?
                 </a>
               </label>
@@ -118,6 +131,7 @@ const Login = () => {
               Registration
             </Link>{" "}
           </p>
+          <button className="btn btn-primary" onClick={handelGoogle}>Google</button>
         </div>
       </div>
     </div>

@@ -3,12 +3,15 @@ import PropTypes from "prop-types";
 import auth from "../firebase/config.firebase";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 export const AuthContext = createContext(null);
+const provider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,10 +28,15 @@ const AuthProvider = ({ children }) => {
   const logOut = () => {
     return signOut(auth);
   };
-  //reset email 
-  const resetEmail =(email) =>{
-   return sendPasswordResetEmail(auth,email)
-  }
+  //reset email
+  const resetEmail = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+  //google sign IN
+  const googleSignIn = () => {
+    setLoading(true);
+    return signInWithPopup(auth, provider);
+  };
   //stateChange
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -47,6 +55,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     logOut,
     resetEmail,
+    googleSignIn,
   };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
