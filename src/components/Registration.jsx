@@ -1,12 +1,14 @@
+import { Link } from "react-router-dom";
+
 const Registration = () => {
-    const handelRegistration = e =>{
-        e.preventDefault()
-        const form = e.target 
-        const name = form.name.value 
-        const email = form.email.value 
-        const password = form.password.value 
-        console.log(name,email,password)
-    }
+  const handelRegistration = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(name, email, password);
+  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -55,12 +57,14 @@ const Registration = () => {
                 className="input input-bordered"
                 required
               />
-         
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Registration</button>
             </div>
           </form>
+          <p className="ml-8 mb-4">
+            Already have an account <Link className="underline" to="/login">Login</Link>
+          </p>
         </div>
       </div>
     </div>
