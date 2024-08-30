@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Registration = () => {
-    const {createUser} = useContext(AuthContext)
+  const [show, setShow] = useState(false);
+  const { createUser } = useContext(AuthContext);
   const handelRegistration = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -11,14 +12,15 @@ const Registration = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(name, email, password);
-    createUser(email,password)
-    .then(result =>{
-        const user = result.user 
-        console.log(user)
-    })
-    .catch(error =>{
-        console.error(error)
-    })
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        e.target.reset();
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -61,20 +63,31 @@ const Registration = () => {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="input input-bordered"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={show ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  className="input input-bordered w-full"
+                  required
+                />
+                <span
+                  className="absolute mt-4 right-4"
+                  onClick={() => setShow(!show)}
+                >
+                  {show ? <FaEye></FaEye> : <FaEyeSlash />}
+                </span>
+              </div>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Registration</button>
             </div>
           </form>
           <p className="ml-8 mb-4">
-            Already have an account <Link className="underline" to="/login">Login</Link>
+            Already have an account{" "}
+            <Link className="underline" to="/login">
+              Login
+            </Link>
           </p>
         </div>
       </div>

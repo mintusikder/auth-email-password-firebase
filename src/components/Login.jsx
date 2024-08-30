@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
   const { signInUser } = useContext(AuthContext);
+  const [show, setShow] = useState(false);
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -13,6 +14,7 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         const user = result.user;
+        e.target.reset();
         console.log(user);
       })
       .catch((error) => {
@@ -48,13 +50,21 @@ const Login = () => {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="input input-bordered"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={show ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  className="input input-bordered w-full"
+                  required
+                />
+                <span
+                  className="absolute mt-4 right-4"
+                  onClick={() => setShow(!show)}
+                >
+                  {show ? <FaEye></FaEye> : <FaEyeSlash />}
+                </span>
+              </div>
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
