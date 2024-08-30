@@ -4,6 +4,8 @@ import { AuthContext } from "../authProvider/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Registration = () => {
   const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [registrationError, setRegistrationError] = useState("");
   const { createUser } = useContext(AuthContext);
   const handelRegistration = (e) => {
     e.preventDefault();
@@ -12,14 +14,19 @@ const Registration = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(name, email, password);
+    //success and error clean
+    setSuccess("");
+    setRegistrationError("");
     createUser(email, password)
       .then((result) => {
         const user = result.user;
         e.target.reset();
         console.log(user);
+        setSuccess("Registration SuccessFull");
       })
       .catch((error) => {
         console.error(error);
+        setRegistrationError(error.message);
       });
   };
   return (
@@ -83,6 +90,10 @@ const Registration = () => {
               <button className="btn btn-primary">Registration</button>
             </div>
           </form>
+          {success && <p className="text-green-600 ml-8">{success}</p>}
+          {registrationError && (
+            <p className="text-green-600 ml-8">{registrationError}</p>
+          )}
           <p className="ml-8 mb-4">
             Already have an account{" "}
             <Link className="underline" to="/login">

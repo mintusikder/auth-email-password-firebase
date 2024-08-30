@@ -5,20 +5,27 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
   const { signInUser } = useContext(AuthContext);
   const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [loginError, setLoginError] = useState("");
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    //success and error clean
+    setSuccess("")
+    setLoginError("")
     signInUser(email, password)
       .then((result) => {
         const user = result.user;
         e.target.reset();
         console.log(user);
+        setSuccess("Login SuccessFull");
       })
       .catch((error) => {
         console.error(error);
+        setLoginError(error.message);
       });
   };
   return (
@@ -75,6 +82,8 @@ const Login = () => {
               <button className="btn btn-primary">Login</button>
             </div>
           </form>
+          {success && <p className="text-green-600 ml-8">{success}</p>}
+          {loginError && <p className="text-green-600 ml-8">{loginError}</p>}
           <p className="ml-8 mb-4">
             New Account{" "}
             <Link className="underline" to="/registration">
