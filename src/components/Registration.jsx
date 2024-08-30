@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 const Registration = () => {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState("");
@@ -38,7 +39,17 @@ const Registration = () => {
         e.target.reset();
         console.log(user);
         setSuccess("Registration SuccessFull");
+        //update profile
+        updateProfile(result.user,{
+            displayName: name,
+             photoURL: "https://example.com/jane-q-user/profile.jpg"
+        })
+        //email verification
+        sendEmailVerification(result.user).then(() => {
+          alert("Please Verification your email");
+        });
       })
+
       .catch((error) => {
         console.error(error);
         setRegistrationError(error.message);

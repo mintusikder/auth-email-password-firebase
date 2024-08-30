@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Login = () => {
@@ -8,6 +8,7 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const [loginError, setLoginError] = useState("");
   const emailRef = useRef(null)
+  const navigate =useNavigate()
   const handelLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -21,8 +22,14 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         e.target.reset();
+        navigate("/");("/");
         console.log(user);
-        setSuccess("Login SuccessFull");
+        if(result.user.emailVerified){
+            setSuccess("Login SuccessFull");
+        }else{
+            alert("Please Verified email")
+        }
+        
       })
       .catch((error) => {
         console.error(error);
